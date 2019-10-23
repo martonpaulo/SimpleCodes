@@ -1,2 +1,3 @@
-# SimpleCodes
-Sample codes for practice.
+# Simple Codes
+
+A repo with source codes used for practicing programming skills.
