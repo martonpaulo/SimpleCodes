@@ -1,17 +1,22 @@
 // Chaotic Balls in p5.js
 
 // gravity works only on the y-axis
-const gravity = [0, 0.3];
+const gravity = [0, 0.1];
+const density = 0.1;
+const minRadius = 10;
+const maxRadius = 30;
+
 
 balls = [];
 
 
 class Ball{
+
   constructor(x, y, vX, vY){
     this.position = [x, y];
     this.velocity = [vX, vY];
-    this.radius = random(10, 30);
-    this.mass = Math.pow(this.radius/100, 3);
+    this.radius = random(minRadius, maxRadius);
+    this.mass = Math.pow(this.radius * density, 3);
     this.color = color(random(0, 255), random(0, 255), random(0, 255));
   }
   
@@ -34,19 +39,42 @@ class Ball{
       return 'right';
              
     }else if(this.position[0] - this.radius <=0){
-      return 'left';
-             
+      return 'left';  
+
     }else{
+
       return 'none';
     }
+
   }
   
-  
+
+  /*
+  getExternalCoordinates(){
+    
+    let coordinates = [];
+
+    for(let angle=0; angle<360; angle++){
+
+      let coordinateX = this.radius * Math.sin(Math.PI * 2 * angle / 360);
+      var coordinateY = this.radius * Math.cos(Math.PI * 2 * angle / 360);
+
+      coordinates.push([Math.round(coordinateX*100)/100, Math.round(coordinateY*100)/100]);
+
+    }
+
+    return coordinates;
+
+  }
+  */
+
+
+
   update(){
     
     this.position = vectorSum(this.position, this.velocity);
     
-    this.velocity = vectorSum(this.velocity, gravity);
+    this.velocity = vectorSum(this.velocity, [gravity[0], gravity[1]*this.mass]);
     
     switch(this.checkCollision()){
         
@@ -58,6 +86,10 @@ class Ball{
       case 'up':
         this.velocity[1] = -this.velocity[1];
         this.position[1] = this.radius+1;
+
+        // '+1' is a 'gambiarra'¹ to fix a bug
+        // ¹ https://www.urbandictionary.com/define.php?term=Gambiarra
+
         break;
         
       case 'right':
