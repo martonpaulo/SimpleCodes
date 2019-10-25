@@ -112,7 +112,7 @@ class Ball{
 
 
 function setup(){
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth*displayDensity(), windowHeight*displayDensity());
 }
 
 
