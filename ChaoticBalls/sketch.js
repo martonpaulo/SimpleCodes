@@ -1,12 +1,14 @@
 // Chaotic Balls in p5.js
 
 // gravity works only on the y-axis
-const gravity = [0, 0.1];
+const gravity = [0, 0.2];
 const density = 0.1;
 const minRadius = 10;
 const maxRadius = 30;
+const reloadTime = 25;
 
-
+var isMouseClicked = false;
+var time = 0;
 balls = [];
 
 
@@ -16,7 +18,7 @@ class Ball{
     this.position = [x, y];
     this.velocity = [vX, vY];
     this.radius = random(minRadius, maxRadius);
-    this.mass = Math.pow(this.radius * density, 3);
+    this.mass = Math.pow(this.radius * density, 2);
     this.color = color(random(0, 255), random(0, 255), random(0, 255));
   }
   
@@ -42,31 +44,11 @@ class Ball{
       return 'left';  
 
     }else{
-
       return 'none';
     }
 
   }
   
-
-  /*
-  getExternalCoordinates(){
-    
-    let coordinates = [];
-
-    for(let angle=0; angle<360; angle++){
-
-      let coordinateX = this.radius * Math.sin(Math.PI * 2 * angle / 360);
-      var coordinateY = this.radius * Math.cos(Math.PI * 2 * angle / 360);
-
-      coordinates.push([Math.round(coordinateX*100)/100, Math.round(coordinateY*100)/100]);
-
-    }
-
-    return coordinates;
-
-  }
-  */
 
 
 
@@ -86,10 +68,6 @@ class Ball{
       case 'up':
         this.velocity[1] = -this.velocity[1];
         this.position[1] = this.radius+1;
-
-        // '+1' is a 'gambiarra'¹ to fix a bug
-        // ¹ https://www.urbandictionary.com/define.php?term=Gambiarra
-
         break;
         
       case 'right':
@@ -118,6 +96,7 @@ function setup(){
 
 function mouseClicked(){
   balls.push(new Ball(mouseX, mouseY, mouseX-pmouseX, mouseY-pmouseY));
+  isMouseClicked = true;
 }
 
 
@@ -135,9 +114,22 @@ function updateBalls(){
 }
 
 
+
 function draw(){
+
   background(120, 143, 160);
   
   updateBalls();
   displayBalls();
+
+  if(!isMouseClicked && ((Math.floor(time/reloadTime))%2 === 0)){
+    textAlign(CENTER, CENTER);
+    text('Click anywhere!', width * 0.5, height * 0.4);
+    textSize((width)/10);
+    textFont('Trebuchet MS');
+    fill(0);
+  }
+
+
+  time++;
 }
