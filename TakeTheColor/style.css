@@ -1,0 +1,10 @@
+#app{
+	position: relative;
+	text-align: center;
+}
+
+.circle{
+	border-radius: 50%;
+	display: inline-block;
+	margin: 1px;
+}
