@@ -1,4 +1,4 @@
-# Simples JavaScript Games
+# Simple JavaScript Games
 
 A repo with source codes used for practicing programming skills.
 
